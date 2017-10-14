@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define N 4
+int main()
+{int a, j, i,;
+    printf("Podaj podstawe;!\n");
+    scanf("%d", &a);
+
+    for (i=0; i<=a; i++){
+        for (j=a; j>0; j--){  // choinka 
+       if ( i<j)
+       printf(" ");
+       else{
+        printf("* ");}
+
+        }
+        printf(" \n");
+        }
+
+    return 0;
+}
