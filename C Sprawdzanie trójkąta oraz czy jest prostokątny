@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{   int a, b,c,e=0,f=0,d=0;
+
+    printf("Podaj wymiary trójkąta\n");
+    scanf("%d %d %d", &a, &b, &c);
+    d=a*a;
+    e=b*b;
+    f=c*c;
+   if ( a<b+c && b<c+a&&c<a+b){
+        printf ("Mozna z niego zrobic trójkat\n");
+      printf("%d", f);
+        if (d+e==f || e+f==d || f+d==e){
+            printf("Jest to trójkąt prostokatny ");
+   }
+
+    return 0;
+}
