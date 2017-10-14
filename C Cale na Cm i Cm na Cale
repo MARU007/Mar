@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define N 2.5
+int main()
+{   char a;
+    float cm, cale;
+    printf("Napisz co chcesz przeliczać !\n c - jesli centymetry \n e - jesli cale\n");
+    scanf("%c", &a);
+    switch (a){
+    case 'c':
+    printf("Podaj liczbe cm:\n");
+    scanf("%f", &cm);
+    printf("%.02f cm to %.02f cali", cm, cm/N);
+    break;
+    case 'e':
+    printf("Podaj liczbe cali: \n");
+    scanf("%f", &cale);
+    printf("%.02f cali to %.02f cm", cale, cale*N);
+
+    }
+
+    getch();
+    return 0;
+}
