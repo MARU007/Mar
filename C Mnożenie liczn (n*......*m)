@@ -1,0 +1,12 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{   int n, m, c=1, i;
+    printf("Podaj liczbe n i m (pamietaj n<m) !\n");
+    scanf("%d %d", &n, &m);
+    for (i=n; i<=m; i++) c*=i;
+    printf("%d", c);
+
+    return 0;
+}
