@@ -1,0 +1,16 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+    int a,i,s=1, c=0;
+    printf("Podaj liczbę nieujemną: ");
+    scanf("%d", &a);
+
+    for (i=1; i<=a; i++){
+    s=s*i;
+    c+=s;
+    }
+    printf("%d", c);
+
+
+return 0; }
