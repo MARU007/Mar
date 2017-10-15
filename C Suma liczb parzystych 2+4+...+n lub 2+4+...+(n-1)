@@ -1,0 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+    int n,i, s=0;
+    printf("Podaj liczbe n \n");
+    scanf("%d",&n);
+
+    for ( i=0; i<=n; i+=2) s+=i;
+    printf("%d", s);
+
+    return 0;
+}
