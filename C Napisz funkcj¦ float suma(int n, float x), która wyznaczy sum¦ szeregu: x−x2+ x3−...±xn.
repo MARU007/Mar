@@ -1,0 +1,29 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+float suma( float x, int n){
+    int i=1;
+    float s=0;
+    while (i<=n){
+
+    if (i%2==0) s-=pow(x,i);
+    else
+    s+=pow(x,i);
+    printf("\t%.02f\n", pow(x,i));
+    i++;
+    }
+return s;
+}
+
+int main()
+{   int n;
+    float x, d;
+    printf("Podaj x i n:\n");
+    scanf("%f %d", &x, &n);
+    d=suma(x,n);
+    printf("%f", d);
+
+    return 0;
+}
