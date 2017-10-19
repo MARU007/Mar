@@ -1,0 +1,28 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+
+int wartoscmaks(int gr){
+int i, c=0;
+for (i=0; i<gr; i++){
+  
+    c+=i;
+    if(gr<c){
+    //printf("%d\n", c);
+    return (i-1);}
+   if (gr==c){
+        return i-1;
+    }
+}
+return 0;
+}
+int main()
+{   int gr, d;
+    printf("Podaj granice liczby:\n");
+    scanf("%d", &gr);
+    d=wartoscmaks(gr);
+    printf("%d", d);
+
+    return 0;
+}
