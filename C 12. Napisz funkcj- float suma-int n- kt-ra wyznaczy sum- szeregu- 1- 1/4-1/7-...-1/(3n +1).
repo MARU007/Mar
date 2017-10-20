@@ -1,0 +1,28 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+
+float wzor(int n){
+    int i;
+    float s=0;
+    for (i=0; i<=n; i++){
+        if (i%2==1){
+        s-=1/(3*(float)i+1);
+       // printf("%f\n", s);}
+        else {s+=1/(3*(float)i+1);
+         // printf("\t%f\n", s);}
+    }
+
+return s;
+}
+int main()
+{   int n;
+    float d;
+    printf("Podaj liczbe n: \n");
+    scanf("%d", &n);
+    d=wzor(n);
+    printf("%.2f", d);
+
+    return 0;
+}
