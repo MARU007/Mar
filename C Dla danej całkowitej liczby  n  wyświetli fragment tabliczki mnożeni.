@@ -1,0 +1,20 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+int main()
+{   int a, i, j, d;
+    printf("Podaj liczbe n: \n");
+    scanf("%d", &a);
+    for (i=1; i<=a; i++){
+   // printf("%d  ", i);
+        for (j=0; j<i; j++){
+            d=i+i*j;
+            printf("%d  ", d);
+        }
+        printf("\n");
+    }
+
+
+    return 0;
+}
