@@ -1,0 +1,25 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+float suma(float x, int n){
+    float s=0;
+    int i;
+for(i=1; i<=n; i++){
+    if (i%2==0) s-=pow(x,i)-i;
+    else s+=pow(x,i)+i;
+printf("%f", s);
+}
+return s;
+}
+int main()
+{   int n;
+    float x, d;
+    printf("Podaj liczbe x i n: \n");
+    scanf("%f %d", &x, &n);
+    d=suma(x,n);
+    printf("%f", d);
+    return 0;
+}
