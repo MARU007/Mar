@@ -1,0 +1,25 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+#define N 4
+#define M 4
+int main()
+{   int tab[N][M], i, j;
+
+    for (i=0; i<3; i++){
+        printf("\n");
+        for (j=0; j<4; j++){
+            scanf("%d", &tab[i][j]);
+        }
+    }
+
+   for (i=0; i<3; i++){
+        printf("\n");
+        for (j=0; j<4; j++){
+                printf("%d", tab[i][j]);
+        }
+   }
+   return 0;
+
+}
