@@ -1,0 +1,86 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+#define N 10
+    float suma(float tab[N]){
+    float d=0;
+    int i;
+    printf("W wyznaczeniu sumy udział brały liczby:\n");
+    for (i=0; i<10; i++){
+        d+=tab[i];
+        printf("%0.2f\t", tab[i]);
+    }
+    return d;
+    }
+  float sumadod(float tab[N]){
+
+  float d=0;
+    int i;
+    printf("W wyznaczeniu sumy udział brały liczby:\n");
+    for (i=0; i<10; i++){
+       if (tab[i]>0){
+        d+=tab[i];
+        printf("%0.2f\t", tab[i]);
+    }}
+    return d;
+    }
+    float sumaujemnych(float tab[N]){
+    float d=0;
+    int i;
+    printf("W wyzznaczeniu sumy liczb ujemncych braly udzial:");
+    for (i=0; i<10; i++){
+       if (tab[i]<0){
+        d+=tab[i];
+        printf("%0.2f\t", tab[i]);
+    }}
+    return d;
+    }
+    float sumakdod(float tab[N], float k){
+    float d=0;
+    int i;
+    printf("W wyzznaczeniu sumy liczb braly udzial: ");
+    for (i=0; i<10; i++){
+       if (tab[i]>k){
+        d+=tab[i];
+        printf("%0.2f\t\n", tab[i]);
+    }}
+    return d;
+    }
+
+    float ind (float tab[N]){
+    float d=0;
+    int i;
+    printf("W wyzznaczeniu sumy liczb braly udzial: ");
+    for (i=1; i<11; i++){
+       if (i%2==0){
+        d+=tab[i];
+        printf("%0.2f\t\n", tab[i]);
+    }}
+    return d;
+
+    }
+
+int main()
+{   float tab[N],d,c, u, k, e, in;
+    int i;
+    printf("Podaj 10 elementów tablcy:\n");
+    for (i=0; i<10; i++){
+    scanf("%f", &tab[i]);}
+    d=suma(tab);
+    printf("\n Suma wynosi %.2f\n\n\n", d);
+
+    c=sumadod(tab);
+    printf("\n Suma wszystkich liczb dodatnich : %0.2f\n\n", c);
+
+    u=sumaujemnych(tab);
+    printf("\n Suma wszystkich liczb ujemnych : %.02f\n\n", u);
+
+    printf("Podaj liczbe k\n");
+    scanf("%f", &k);
+    e=sumakdod(tab,k);
+    printf("Suma liczb wiekszych od k wynosi: %.02f\n\n\n\n\n\n", e);
+
+    in=ind(tab);
+    printf("Suma liczb o indeksach patzystych przyjmujac ze zaczynamy od indesku nr 1: %.02f\n"), in;
+}
