@@ -1,0 +1,24 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+#define N 10
+#include <time.h>
+int main()
+{   int tab[N],x,i, max;
+    float d, srednia;
+    srand(time(NULL));
+    printf("H\n");
+    for (i=1; i<=10; i++){
+        x=rand()%21;
+        tab[i]=x;
+        d+=tab[i];
+        if (max<tab[i]) max=tab[i];
+    }
+    for (i=1; i<=10; i++){
+        printf("%d\n", tab[i]);
+    }
+    srednia=d/i;
+    printf("%f %d", srednia, max);
+    return 0;
+}
