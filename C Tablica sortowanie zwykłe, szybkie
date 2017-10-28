@@ -1,0 +1,41 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+#define N 20
+#include <time.h>
+int main()
+{   int tab[N], i, max, maxi,j;
+    printf("Sortowanie losowej tablicy \n");
+    srand(time(NULL));
+    for (i=0;  i<20; i++){
+        tab[i]=rand()%21;
+        printf("%d\n ",tab[i] );
+        }
+    printf("\n\n\n");
+    max=tab[0];
+
+     for ( j = N-1; j > 0; j-- ){
+  /* Nzm.: a[0],...,a[j]<=a[j+1]<=...<=a[N-1] */
+    max = tab[0];
+    maxi = 0;
+    for ( i = 1; i <= j; i++ )
+    /* Nzm.: a[i_max]=max=MAX(a[0],...,a[i-1]) */
+      if ( tab[i] > max ){
+        max = tab[i];
+        maxi = i;
+      }
+    tab[maxi] = tab[j];
+    tab[j] = max;
+    printf("\t\t\t\t%d\n ",tab[j] );
+  }
+
+  /* Wypisanie wynikow. */
+
+      for (i=0;  i<20; i++){
+
+        printf("%d\n ",tab[i] );
+        }
+
+    return 0;
+}
