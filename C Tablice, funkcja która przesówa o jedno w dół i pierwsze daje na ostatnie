@@ -1,0 +1,33 @@
+# Mar
+C
+#include <stdlib.h>
+#define N 20
+#include <time.h>
+void przesun(int tab[N], int n){
+    int i=0;
+    tab[n]=tab[0];
+    for (i=0; i<n; i++){
+        tab[i]=tab[i+1];
+    }
+   // tab[n]=tab[0];
+        for(i=0; i<n; i++){
+
+        printf("\t%d\n", tab[i]);
+    }
+}
+int main()
+{   int tab[N], i, x,d, n;
+    srand(time(NULL));
+    for(i=0; i<20; i++){
+        tab[i]=rand()%101;
+        printf("%d\n", tab[i]);
+    }
+    printf("Podaj ilosc elementow z tablicy " );
+    scanf("%d", &n);
+    przesun(tab, n);
+        /*for(i=0; i<n; i++){
+
+        printf("\t%d\n", tab[i]);}*/
+
+    return 0;
+}
