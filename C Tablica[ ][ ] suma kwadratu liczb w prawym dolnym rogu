@@ -1,0 +1,27 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+#define N 10
+#define M 5
+#include <time.h>
+int main()
+{   int tab[M][N], i, j, sum=0;
+    srand(time(NULL));
+    printf("\n");
+    for (i=0; i<M; i++){
+        printf("%\n");
+        for(j=0; j<N; j++){
+            tab[i][j]=rand()%10;
+            printf("\t%d", tab[i][j]);
+        }
+    }
+    for (i=M-3; i<M; i++){
+        for (j=N-3; j<N; j++){
+            sum+=tab[i][j];
+            printf("\n %d", tab[i][j]);
+        }
+    }
+    printf("\n %d", sum);
+    return 0;
+}
