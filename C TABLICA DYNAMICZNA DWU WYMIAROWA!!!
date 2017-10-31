@@ -1,0 +1,37 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <conio.h>
+void wylosuj(int ***T, int w, int k){
+int i,j,x;
+*T=(int*) malloc(w*sizeof(int));
+for(i=0; i<k; i++){
+    *((*T)+i)=(int*) malloc(k*sizeof(int));
+
+}
+
+for (i=0; i<w; i++){
+    for (j=0; j<k; j++){
+            x=rand()%20;
+       *(*((*T)+i)+j)=x;
+    }
+
+}
+for (i=0; i<w; i++){
+        printf("\n");
+    for (j=0; j<k; j++){
+    printf("\t%d", *(*((*T)+i)+j));
+}
+}
+}
+
+
+int main()
+{   int w, k, *T;
+    printf("Podaj wymiary tablicy dynamicznej!\n");
+    scanf("%d %d", &w, &k);
+    wylosuj(&T, w, k);
+    return 0;
+}
