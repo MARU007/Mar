@@ -1,0 +1,25 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+#define N 10
+#include <string.h>
+void dwa(char z[]){
+    char z2[N], *z3;
+    int i,j;
+
+    for (i=0; z[i]!='\0'; i++){
+        //printf("%c  \n", z[i]);
+            z2[i*2]=z[i];
+            z2[(i*2)+1]=z[i];
+    }
+    z2[i*2]='\0';
+         printf("%s\n", z2);
+}
+int main()
+{   char z[N], d[N] ;
+    printf("Podaj jakis wyrbaz!\n");
+    scanf("%s", z);
+    dwa(z);
+    return 0;
+}
