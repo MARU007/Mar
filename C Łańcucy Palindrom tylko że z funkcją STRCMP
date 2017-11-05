@@ -1,0 +1,20 @@
+# Mar
+C
+int poli(char w[]){
+    char w2[N];
+    int i,k,x;
+   x=strlen(w);
+    for (i=0; w[i]!='\0'; i++){
+        w2[x-i]=w[i]; 
+    }
+    for (i=0; i<strlen(w);i++){
+        w2[i]=w2[i+1];
+        printf("\t%c\n", w2[i]);
+    }
+    w2[i]='\0';
+    if(strcmp(w, w2) == 0)
+        printf("Lancuchy s1 i s2 sa takie same\n");
+    else
+        printf("Lancuchy s1 i s2 NIE sa takie same\n");
+    return k;
+}
