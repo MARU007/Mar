@@ -1,0 +1,32 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+#define N 20
+#include <string.h>
+int poli(char w[]){
+    char w2[N];
+    int i,k,x;
+    x=strlen(w);
+    for (i=0; w[i]!='\0'; i++){
+        w2[x-i]=w[i];
+        //printf("J %c\n",w2[x-i] );
+    }
+    for (i=0; w[i]!='\0'; i++){
+        if (w[i]==w2[i+1]) {
+            k=1;
+            }
+        else k=0;
+    }
+    return k;
+}
+int main()
+{   char wyraz[N];
+    int k;
+    printf("Podaj jakis wyraz, a sprawdze czy jest to palidrom:\n");
+    scanf("%s", wyraz);
+    k=poli(wyraz);
+    if (k==1) printf("Jest to palidrom");
+    else printf("Nie jest to palindoem");
+    return 0;
+}
