@@ -1,0 +1,24 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+#define N 20
+#include <string.h>
+void pokrywanie(char a[],char b[]){
+    int i,j=0;
+    for (i=0; i<=strlen(a); i++){
+        for (j=0; j<strlen(a); j++){
+        if(a[i]==b[0]){
+        if(a[i+j]==b[0+j]) printf("Pierwszy wyraz ma w sobie taką częsci drugiego\t%c\n",b[0+j]);
+        }
+        }
+    }
+}
+int main()
+{ char a[N], b[N];
+
+    printf(" Podaj dwa napisy, zobaczy czy sie pokrywa drugi z pierwszym: \n");
+    scanf("%s %s", a,b);
+    pokrywanie(a,b);
+    return 0;
+}
