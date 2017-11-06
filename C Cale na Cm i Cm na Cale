@@ -16,7 +16,7 @@ int main()
     printf("Podaj liczbe cali: \n");
     scanf("%f", &cale);
     printf("%.02f cali to %.02f cm", cale, cale*N);
-
+    break;
     }
 
     getch();
