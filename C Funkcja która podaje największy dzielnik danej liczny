@@ -20,11 +20,6 @@ int liczba (int n){
     //nie ma dzielnika
 return s;
 }
-
-
-
-
-
 int main()
 {   int n, c;
     printf("Podaj liczbê n:\n");
