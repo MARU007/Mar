@@ -1,0 +1,38 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+
+void zamiana (int *liczby,int a){
+    int i=0;
+    int *c=0;
+    c=malloc(sizeof(int)*1);
+    for (i;i<a;i+=2){
+       // printf("dziala1?");
+        *c=*(liczby+i);
+        *(liczby+i)=*(liczby+1+i);
+        *(liczby+1+i)=*c;
+       // printf("dziala?\n");
+        }
+        free(c);
+}
+int main()
+{   int *liczby;
+    int i,n;
+    liczby=malloc(sizeof(int)*5);
+
+    printf("Zamina liczb indeskami, czyli 1,2,3,4 == 2,1,4,3. WSKAZNIKI!\n(tylko nie 0)\n");
+    printf("Podaj liczbe elementow tablicy:(parzsta liczbe)\n");
+    scanf("%d", &n);
+    printf("\nTeraz podaj elementy\n");
+     for (i=0; i<n;i++){
+        scanf("%d", liczby+i);
+    }
+    *(liczby+i)=0;
+    zamiana(liczby,n);
+    printf("\n");
+    for (i=0; i<n; i++){
+        printf("Element tablicy nr. %d to %d \n", i+1, *(liczby+i));
+    }
+    return 0;
+}
