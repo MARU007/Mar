@@ -1,0 +1,50 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+    int *c;
+void zmienna_bezwarunkowo(int *a, int *b){
+
+    c=malloc(sizeof(int)*1);
+    *c=*a;
+    *a=*b;
+    *b=*c;
+    //printf("\n Działa? %d", *c);
+}
+
+void zmienna_gdyjedenminus(int *a, int *b){
+    if(*a<0 || *b<0){
+        *c=*a;
+        *a=*b;
+        *b=*c;
+    }
+}
+
+void zmienia_gdy_aparzysta_bnie(int *a, int *b){
+    if(*a%2==0 && *b%2==1){
+        *c=*a;
+        *a=*b;
+        *b=*c;
+    }
+}
+int main()
+{   int *a,*b;
+    a=malloc(sizeof(int)*1);
+    b=malloc(sizeof(int)*1);
+    printf("Podaj dwie liczby:\n");
+    scanf("%d %d", a,b);
+    printf("Czyli \ta=%d\tb=%d\n", *a,*b);
+
+    zmienna_bezwarunkowo(a,b);
+    printf("\nPo zamianie\t a=%d\tb=%d", *a, *b);
+    zmienna_bezwarunkowo(a,b);
+
+    zmienna_gdyjedenminus(a,b);
+    printf("\nPo zamianie gdyby jeden byl minusem \t a=%d\tb=%d", *a, *b);
+    zmienna_gdyjedenminus(a,b);
+
+    zmienia_gdy_aparzysta_bnie(a,b);
+    printf("\nKiedy a jest parzyste, a b jest nie parszyste\t a=%d \t b=%d", *a, *b);
+
+    return 0;
+}
