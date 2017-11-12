@@ -1,0 +1,22 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+
+int liczby(int n){
+    int i=1,sum=0;
+    if(n!=1){
+
+    return sum+=n+liczby(n-1);
+    }
+    else return 1;
+}
+
+
+int main()
+{   int c;
+    printf("Hello world!\n");
+    c=liczby(4);
+    printf("%d",c);
+    return 0;
+}
