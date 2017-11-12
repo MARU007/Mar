@@ -1,0 +1,34 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+float pole(int a, int b, int c);
+float promien(int a, int b, int c, int wynikpola);
+
+int main()
+{   int a,b,c;
+    float wynikpola;
+    printf("Podaj trzy boki trojkata a oblicze jego pole oraz promien kola na nim opisanego: \n");
+    scanf("%d %d %d", &a, &b, &c);
+
+    wynikpola=pole(a,b,c);
+
+    printf("\nPole wynosi %.2f", wynikpola);
+    printf("\nPromien okregu  opisanego na tym trojkacie jest rowny %.2f", promien(a,b,c,wynikpola));
+    return 0;
+}
+float pole(int a, int b, int c){
+        float p,Pol;                      //obówd/2 i pole
+        p=(float)(a+b+c)/2;
+        Pol=sqrt(p*(p-a)*(p-b)*(p-c));
+        return Pol;
+}
+
+float promien(int a, int b, int c, int wynikpola){
+    float R;
+    R=(a*b*c)/(float)(wynikpola*4);
+    return R;
+
+}
