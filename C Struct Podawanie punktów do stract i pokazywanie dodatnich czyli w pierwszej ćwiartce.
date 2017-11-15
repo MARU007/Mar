@@ -1,0 +1,35 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct PUN{
+    int x[5],y[5];
+}punkty;
+
+punkty liczenie(void){
+    punkty tmp;
+    printf("Podaj punkty do sprawdzenia:\n");
+
+    int i;
+
+    for (i=0; i<5; i++){
+        scanf("%d %d", &tmp.x[i], &tmp.y[i]);
+    }
+    return tmp;
+}
+int main()
+{
+    printf("Sprawdzanie punktów x i y. Wynikiem są tyle punkty w pierwszej ćwiartce.\n");
+    int i;
+    punkty wynik;
+    wynik = liczenie();
+
+    printf("W pierwszej cwiartce sa punkty: \n");
+    for (i=0; i<5; i++){
+        if (wynik.x[i]>0 && wynik.y[i])
+                printf("%d  %d \n", wynik.x[i], wynik.y[i]);
+    }
+
+    return 0;
+}
