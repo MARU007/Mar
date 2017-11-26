@@ -1,0 +1,39 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef char Dane;
+
+struct lista{
+    Dane *d;
+    struct lista *next;
+}Element;
+
+
+typedef struct lista *Lista;
+int main()
+{
+    Lista Pierwszy,Elem;
+
+    Pierwszy=malloc(sizeof(Element));
+    Pierwszy->d=(char*)malloc(sizeof(char)*10);
+
+    strcpy(Pierwszy->d,"Ala");
+  
+    Pierwszy->next=malloc(sizeof(Element));
+    
+    Pierwszy->next->d="ma";
+  
+    Elem=malloc(sizeof(Element));
+    Elem->d=malloc(sizeof(char)*5);
+    strcpy((*Elem).d,"nie");
+    
+    printf("Ala ma -----> Ala nie ma\n");
+
+    Elem->next=Pierwszy->next;
+    Pierwszy->next=Elem;
+    
+    printf("%s %s %s", Pierwszy->d,Pierwszy->next->d, Pierwszy->next->next->d);
+    return 0;
+}
