@@ -5,7 +5,7 @@ C
 #include <string.h>
 typedef char Dane;
 
-struct lista{
+typedef struct lista{
     Dane *d;
     struct lista *next;
 }Element;
