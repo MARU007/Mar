@@ -1,0 +1,53 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct lista{
+    int x;
+    struct lista *n;
+}Element;
+
+int main()
+{
+    FILE *fp;
+    fp=fopen("plik.bin","wb");
+    if (fp==NULL) printf("Problem z plikiem");
+    Element *Lista,*pom, r1;
+
+    int i=1;
+    Lista=(Element*)malloc(sizeof(Element));
+    pom=(Element*)malloc(sizeof(Element));
+    pom=Lista;
+    while (i<6){
+
+        i++;
+        printf("Podaj liczbê:\n");
+        scanf("%d", &i);
+        Lista->x=i;
+        printf("%d\n", Lista->x);
+        if(i==6) {
+            Lista->n=NULL;
+        }
+        else {
+        Lista->n=malloc(sizeof(Element));
+        Lista=Lista->n;
+        Lista->n=NULL;
+        }
+    }
+
+    Lista=pom;
+     while(1){
+
+            printf("\n\t\t\t\t%d\n", Lista->x);
+            printf("\n \t\t\t\t%d", Lista->n);
+            fwrite(Lista, sizeof(Element), 1, fp);
+            if(Lista->n==NULL) break;
+            Lista=Lista->n;
+            printf("\n \t%d", Lista->n);
+            printf("\n\t%d\n", Lista->x);
+        }
+    fclose(fp);
+    printf("/nHello world!\n");
+    return 0;
+}
