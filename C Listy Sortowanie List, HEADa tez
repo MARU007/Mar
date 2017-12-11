@@ -1,0 +1,95 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct El
+{
+    int x;
+    struct El *n;
+} Elem;
+
+int main()
+{
+    Elem *Lista, *HEAD, *tmp, *tmp2;
+    Lista=(Elem*)malloc(sizeof(Elem));
+    HEAD=Lista;
+
+    int i;
+    while(1)
+    {
+        printf("Podaj x:\n");
+        scanf("%d", &Lista->x);
+        printf("\n Konczymy?  0TAK/1NIE\n");
+        scanf("%d", &i);
+
+        if(i==0)
+        {
+            Lista->n=NULL;
+            break;
+        }
+        else
+        {
+            Lista->n=(Elem*)malloc(sizeof(Elem));
+            Lista=Lista->n;
+        }
+    }
+    Lista=HEAD;
+
+    i=0;
+
+    while(1)
+    {
+        i++;
+        printf("%d. %d\n", i, Lista->x);
+        if (Lista->n==NULL) break;
+        Lista=Lista->n;
+    }
+    printf("Sortowanie\n");
+    Lista=HEAD;
+    int k=0;
+    tmp2=HEAD;
+    while(1)
+    {
+
+        Lista=HEAD;
+
+        while(1)
+        {
+            if(Lista->n->x  > Lista->n->n->x)
+            {
+                tmp=Lista->n->n;
+                Lista->n->n=Lista->n->n->n;
+                tmp->n=Lista->n;
+                Lista->n=tmp;
+               /* printf("\nP\n\t%d\n ", Lista->x);
+                printf("\t%d\n ", Lista->n->x);
+                printf("\t%d\n ", Lista->n->n->x);*/
+            }
+            if(Lista->n->n->n==NULL) break;
+            Lista=Lista->n;
+        }
+        if(tmp2->n==NULL) break;
+        tmp2=tmp2->n;
+        Lista=HEAD;
+        if(HEAD->x > Lista->n->x){
+                 HEAD=Lista->n;
+                 Lista->n=Lista->n->n;
+                 HEAD->n=Lista;
+             }
+    }
+    Lista=HEAD;
+    int j=0;
+
+    while(1)
+    {
+
+        j++;
+        printf("%d. %d\n", j, Lista->x);
+        if (Lista->n==NULL) break;
+        Lista=Lista->n;
+
+    }
+    printf("\nHello world! DZIALA?\n");
+    return 0;
+}
