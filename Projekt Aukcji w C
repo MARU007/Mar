@@ -1,1 +1,962 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <conio.h>
+#define M 20
+#define N 100
+#define O 10
+typedef struct oferta{
+    char nazwa[N];
+    char kategoria[M];
+    char stan[O];
+    float cena;
+    char email[N];
+    char numer[9];
+    struct oferta *n;
+}Elem;
+
+void dodaj_przedmiot();
+void usun_przedmiot();
+void edytuj_przedmiot();
+void lista_przed();
+void listaEd_przed();
+void listakup_przed();
+void wpisanie_nazwy(Elem*);
+void listakat();
+int wybor_kat(int);
+void zapis_kat(int, Elem*);
+void zapis_stan(int, Elem*);
+void wpisanie_emaila(Elem*);
+void zapis_dopliku(Elem*);
+int pytanie_o_nr(int);
+void zapis_dopliku2(Elem*);
+void oznaczenie_sprzedane(Elem*, int);
+void zapis_doplikuWB(Elem*, int);
+int lista_ofert(Elem*, Elem*, int);
+char *napisz_czesciowy();
+void lista_z_kryteriami(int ,float , float , int , int);
+int filtr_cen(float, float, float);
+Elem* sortowanie_cen(Elem*,Elem*,int);
+void usuwanie_elem(Elem*,Elem*,int);
+void lista_struct();
+void zmiana_nazwy(Elem*);
+void zmiana_kategori(Elem*);
+void zmiana_stanu(Elem*);
+void zmiana_ceny(Elem*);
+void zmiana_emaila(Elem*);
+void zmiana_nrtele(Elem*);
+int filtr_stan(int,char*);
+int filtr_kategoira(int,char*);
+int filtr_cen(float,float, float);
+void zapis_doplikuWB3(Elem *);
+int main()
+
+{
+    int wybor = -1;
+
+
+
+    while (1){
+        system("cls");
+        printf(" -------------- \n|              |\n|    AUKCJA    |\n|              |\n -------------- \n\n");
+        printf("\n\n<<< MENU >>>\n\n\n");
+        printf("1. Dodaj przedmiot\n");
+        printf("2. Usun przedmiot z aukcji\n");
+        printf("3. Edytuj stworzona juz aukcje\n\n");
+
+        printf("4. Lista przedmiotow\n");
+        printf("5. Lista przedmiotow z filtrami\n");
+        printf("6. Lista przedmiotow zakupionych\n\n");
+
+        printf("7. Zamkniecie\n\n");
+
+        printf("Wybierz jedna z opcji 1-7:\n");
+
+        scanf("%d", &wybor);
+        fflush(stdin);
+        while (wybor<1 || wybor>7 ){
+            printf("Podales zly numer! Sprobuje jeszcze raz. Wybierz jedna z opcji 1-7:\n");
+            scanf("%d", &wybor);
+            fflush(stdin);
+        }
+        switch (wybor){
+            case 1: dodaj_przedmiot();
+            break;
+
+            case 2: usun_przedmiot();
+            break;
+
+            case 3: edytuj_przedmiot();
+            break;
+
+            case 4: lista_przed();
+            break;
+
+            case 5: listaEd_przed();
+            break;
+
+            case 6: listakup_przed();
+            break;
+
+            case 7: return 0;
+
+        }
+    }
+    return 0;
+}
+
+void dodaj_przedmiot(){
+    printf("\n\t\t\t<<<Dodawanie oferty>>>\n\n");
+
+    Elem *pom;
+    pom=(Elem*)malloc(sizeof(Elem));
+
+
+    printf("Podaj nazwe przedmiotu:  ");
+    wpisanie_nazwy(pom);
+
+    int k;
+    printf("Podaj kategorie. Do wyboru masz: \n");
+    listakat();
+    printf("Podaj numer:\n");
+    k=wybor_kat(7);
+    zapis_kat(k, pom);
+
+    int l;
+    printf("Podaj stan przedmiotu: \n");
+    printf("1. Nowy / 2. Uzywany\n");
+    l=wybor_kat(2);
+    zapis_stan(l, pom);
+
+    printf("Podaj cene przediotu: ");
+    while(1){
+        scanf("%f", &pom->cena);
+        fflush(stdin);
+        if(pom->cena>0)break;
+        printf("\n\nCena musi byc wieksza od 0.\n\n");
+    }
+    printf("Podaj adres e-maila.\n");
+    wpisanie_emaila(pom);
+
+    printf("Podaj numer telefonu:\n");
+    while(1){
+        scanf("%s", pom->numer);
+        if (strlen(pom->numer)==9 && strspn(pom->numer,"0123456789")==9) break;
+        printf("Numer musi miec 9 cyfr, podaj go jeszcze raz: ");
+    }
+    pom->n=NULL;
+    zapis_dopliku(pom);
+
+}
+void usun_przedmiot(){
+    printf("\t\t\t<<<Lista dostpnych aukcji do wycofania>>>\n\n");
+    Elem *pom, *Ha;
+    pom=(Elem*)malloc(sizeof(Elem));
+    Ha=(Elem*)malloc(sizeof(Elem));
+    int l=0,j=1,i,k;
+    Ha=pom;
+    i=lista_ofert(pom,Ha,l);
+    pom=Ha;
+    while(j<i){
+          pom=pom->n;
+        j++;
+    }
+    pom->n=0;
+    pom=Ha;
+    printf("Podaj numer ktore ogloszenie chcesz wycofac:  ");
+    k=pytanie_o_nr(i);
+    pom=Ha;
+    usuwanie_elem(pom,Ha,k);
+}
+void edytuj_przedmiot(){
+     printf("\t\t\t<<<Edycja ogloszenia>>>\n\n");
+    Elem *pom3,*H3;
+    pom3=(Elem*)malloc(sizeof(Elem));
+    H3=pom3;
+    int i, k=0,podanaliczba,j=1;
+    printf("Ktore ogloszenie chcesz zmienic? (0 aby wrocic do menu):   ");
+
+    i=lista_ofert(pom3, H3, k);
+    pom3=H3;
+    printf("\nPodaj jeden numer: ");
+    podanaliczba=pytanie_o_nr(i);
+    if(podanaliczba==0) return;
+    while(j< podanaliczba){
+        pom3=pom3->n;
+        j++;
+    }
+    int wybor;
+    printf("Ktora informacje chcesz zmienic?\n");
+    lista_struct();
+    printf("Podaj numer: ");
+    scanf("%d", &wybor);
+        fflush(stdin);
+        while (wybor<1 || wybor>6 ){
+            printf("Podales zly numer! Sprobuje jeszcze raz. Wybierz jedna z opcji 1-6:\n");
+            scanf("%d", &wybor);
+            fflush(stdin);
+        }
+        switch (wybor){
+            case 1: zmiana_nazwy(pom3);
+            break;
+
+            case 2: zmiana_kategori(pom3);
+            break;
+
+            case 3: zmiana_stanu(pom3);
+            break;
+
+            case 4: zmiana_ceny(pom3);
+            break;
+
+            case 5: zmiana_emaila(pom3);
+            break;
+
+            case 6: zmiana_nrtele(pom3);
+            break;
+    }
+    pom3=H3;
+    zapis_doplikuWB(pom3, i);
+
+}
+void lista_przed(){
+    printf("\t\t\t<<<Lista dostpenych auckji>>>\n\n");
+    Elem *pow, *HEADlokalny;
+    pow=(Elem*)malloc(sizeof(Elem));
+    HEADlokalny=(Elem*)malloc(sizeof(Elem));
+    int  i=0,j;
+    pow=HEADlokalny;
+
+    i=lista_ofert(pow,HEADlokalny,i);
+    if (i==0) return;
+    pow=HEADlokalny;
+    while(1){
+        if(pow->n->n==NULL) {
+                pow->n=NULL;
+                break;
+
+        }
+        pow=pow->n;
+    }
+
+    getch();
+    pow=HEADlokalny;
+    printf("Podaj numer ogloszenia ktorego chcesz kupic przedmiot: ( 0 aby wrocic do menu) \n");
+    j=pytanie_o_nr(i);
+    if (j==0) return;
+    oznaczenie_sprzedane(pow, j);
+    pow=HEADlokalny;
+
+    zapis_doplikuWB(pow,i);
+
+
+}
+void listaEd_przed(){
+    printf("\t\t\t<<<Lista ofert z filtrami>>>\n\n");
+    printf("Podaj rodzaj filtra.\n");
+    printf("1. Wedlug kategorii, stanu i ceny.\n");
+    printf("2. Wedlug nazwy przedmiotu (czesci nazwy lub calej).\n");
+    int wybornr;
+    wybornr=pytanie_o_nr(2);
+    switch (wybornr){
+        case 1:
+            printf("Podaj kryterja jakich chcesz ogladac oferty:\n");
+
+            int stan,kategoria,sortowanie;
+            float cenapocz,cenakoncowa;
+            printf("Stan: \n1.Nowy\t\t2. Uzywany\t\t3. Wszystkie  \n");
+            printf("Podaj numer:  ");
+            while(1){
+                scanf("%d", &stan);
+                fflush(stdin);
+                if(stan<4 && stan>0) break;
+                printf("Blad Podaj jeszcze raz: ");
+            }
+
+            printf("\nPodaj przedzialy cenowe.\nAby nie ustalac tego kryterium wpisz w oba pola 0.\n");
+            while(1){
+                printf("Od:");
+                scanf("%f", &cenapocz);
+                fflush(stdin);
+                printf("\nDo:");
+                scanf("%f", &cenakoncowa);
+                fflush(stdin);
+                if (cenakoncowa==0 && cenapocz==0)break;
+                if(cenapocz>0 && cenakoncowa>0&& cenapocz<cenakoncowa)break;
+                printf("Podales zle kryteria cenowe, sprobuj jeszcze raz: ");
+            }
+            printf("\nPodaj numer kategorii.\nDo wyboru masz:\n");
+            listakat();
+            printf("7. Wszystkie\n\n");
+            printf("Podaj numer: ");
+            while(1){
+                scanf("%d", &kategoria);
+                fflush(stdin);
+                if(kategoria>0 && kategoria<8) break;
+                printf("Podales zly numer, sprobuj jeszcze raz:");
+            }
+            printf("Podaj rodzaj sortowania cenowego.\n");
+            printf("1. Malejaco\t\t\t2. Rosnaco\t\t\t3. Brak");
+            while(1){
+                scanf("%d", &sortowanie);
+                fflush(stdin);
+                if(sortowanie<4 && sortowanie>0) break;
+                printf("Podales zly numer, sprobuj jeszcze raz: ");
+            }
+            lista_z_kryteriami(stan,cenapocz,cenakoncowa,kategoria,sortowanie);
+            return;
+        case 2:;
+            printf("\n\nPodaj nazwe przedmiotu lub jego czesc: ");
+            int dlugoscT;
+            char *T = (char*)malloc(sizeof(char)*30);
+            T=napisz_czesciowy();
+            dlugoscT=strlen(T);
+            T=realloc(T,sizeof(char)*(dlugoscT+1));
+            FILE *fp;
+            if ((fp=fopen("dane.bin","rb"))==NULL) {
+                    printf("Problem z plikiem\n");
+                    return;
+            }
+            Elem *pom=(Elem*)malloc(sizeof(Elem));
+            Elem *H4;
+            H4=pom;
+
+            int i=0;
+            do{
+                if (fread(pom,1,sizeof(Elem),fp)){
+                        pom->n=(Elem*)malloc(sizeof(Elem));
+                        pom=pom->n;
+                        i++;
+                }
+            }while(!feof(fp));
+            pom->n=NULL;
+            pom=H4;
+
+            do{
+                if((pom->n->n)==NULL){
+                    pom->n=NULL;
+
+                }
+                if (pom->n==NULL) break;
+                pom=pom->n;
+            }while(1);
+            pom=H4;
+            int ii=0,nr3;
+
+            while(1){
+                if( strncmp( pom->nazwa, T, 3 ) == 0 ){
+                    ii++;
+                    printf("\n\t\t<<<%d>>>\n\n", ii);
+                    printf("Nazwa - %s\n", pom->nazwa);
+                    printf("Kategoria  - %s\n", pom->kategoria);
+                    printf("Stan - %s\n", pom->stan);
+                    printf("Cena - %.02f zl\n", pom->cena);
+                    printf("E-mail - %s\n", pom->email);
+                    printf("Numer telefonu - %s\n\n\n", pom->numer);
+                }
+                if(pom->n==NULL) break;
+                pom=pom->n;
+            }
+            if (ii==0){
+                printf("Nie ma przedmiotu na aukcji o podanej nazwie.");
+                getch();
+                return;
+            }
+            printf("Podaj nr auckcji ktora chcesz kupic (0 jesli zadnej):  ");
+            nr3=pytanie_o_nr(ii);
+            if (nr3==0) return;
+            pom=H4;
+             while(1){
+                if( strncmp( pom->nazwa, T, 4 ) == 0 ){
+                    ii++;
+                    if(nr3==ii)break;
+                }
+                if(pom->n==NULL) break;
+                pom=pom->n;
+             }
+
+            char *p= strchr( pom->nazwa, '$' );
+            if ( p!=NULL){
+                printf("Ten przedmiot juz ktos kupil.\n\n\n\n");
+                getch();
+
+                main();
+            }
+            free(p);
+            zapis_dopliku2(pom);
+            strcat(pom->nazwa," -----   $$$SPRZEDANE$$$");
+            pom=H4;
+            int j5=0;
+            if ((fp=fopen("dane.bin","wb"))==NULL) printf("Problem z plikiem");
+            while(1){
+                fwrite(pom,1,sizeof(Elem),fp);
+                if(pom->n==NULL) break;
+                pom=pom->n;
+                j5++;
+            }
+
+            fclose(fp);
+            getch();
+    }
+}
+void listakup_przed(){
+printf("\t\t\t<<<Lista przedmiotwo kupionych>>>\n\n\n");
+    FILE *fp;
+    if ((fp=fopen("dane2.bin","rb"))==NULL) {
+            printf("Problem z plikiem\n");
+            return;
+    }
+    int i=0;
+    Elem *pow;
+    pow=(Elem*)malloc(sizeof(Elem));
+    do{
+        if (fread(pow,1,sizeof(Elem),fp)){
+            i++;
+            pow->n=(Elem*)malloc(sizeof(Elem));
+            printf("\n\t\t<<<%d>>>\n\n", i);
+            printf("Nazwa - %s\n", pow->nazwa);
+            printf("Kategoria  - %s\n", pow->kategoria);
+            printf("Stan - %s\n", pow->stan);
+            printf("Cena - %.02f zl\n", pow->cena);
+            printf("E-mail - %s\n", pow->email);
+            printf("Numer telefonu - %s\n\n\n", pow->numer);
+            pow=pow->n;
+            pow->n=NULL;
+        }
+    }while(!feof(fp));
+     printf("\t\t\t(Aby wrocic do menu klikini ENTER)\n");
+    getch();
+    fclose(fp);
+}
+
+void wpisanie_nazwy(Elem *pow){
+    char *container;
+    int i=0,j,k;
+    k=N;
+    container=malloc(sizeof(char)*100);
+    while(1){
+        while ((container[i] = getchar()) != '\n'){
+            i++;
+        }
+    container[i]='\0';
+    j=strlen(container);
+
+    if(j<k) break;
+
+    printf("\nBlad, nazwa jest za dluga, podaj krotsza\n");
+    free(container);
+    container=malloc(sizeof(char)*100);
+    }
+    container=realloc(container,sizeof(char)*(j+1));
+    strcpy(pow->nazwa,container);
+    free(container);
+}
+void listakat(){
+    printf("1. Motoryzacja \t\t\t 2. Elektronika \t\t 3. Nieruchomosc\n");
+    printf("4. Sport \t\t\t 5. Moda\t\t\t 6. Inna\n");
+
+}
+int wybor_kat(int d){
+    int i;
+    scanf("%d", &i);
+    fflush(stdin);
+    while (i<1 || i>d ){
+            printf("Podales zly numer! Sprobuje jeszcze raz. \n");
+            scanf("%d", &i);
+            fflush(stdin);
+    }
+    return i;
+}
+void zapis_kat(int i, Elem *pom){
+    switch(i){
+        case 1: strcpy(pom->kategoria,"Motoryzacja");
+            break;
+        case 2: strcpy(pom->kategoria,"Elektornika");
+            break;
+        case 3: strcpy(pom->kategoria,"Nieruchomosc");
+            break;
+        case 4: strcpy(pom->kategoria,"Sport");
+            break;
+        case 5: strcpy(pom->kategoria,"Moda");
+            break;
+        case 6: strcpy(pom->kategoria,"Inna");
+            break;
+    }
+}
+void zapis_stan(int i, Elem *pom){
+     switch(i){
+        case 1: strcpy(pom->stan,"Nowy");
+            break;
+        case 2: strcpy(pom->stan,"Uzywany");
+            break;
+     }
+}
+void wpisanie_emaila(Elem *pom){
+    char *container;
+    container=malloc(sizeof(char)*100);
+    do{
+        int i=0,j,k=0;
+        while ((container[i] = getchar()) != '\n'){
+            i++;
+        }
+
+        container[i]='\0';
+        j=strlen(container);
+        i=0;
+        while(i<j){
+            i++;
+            if(container[i]=='@'){
+                k++;
+                break;}
+        }
+
+        while(i<j){
+            i++;
+            if(container[i]=='.'){
+                k++;
+                break;}
+        }
+        if(k==2) break;
+    printf("Podales zly email, podaj go jeszcze raz ( z @ . ): ");
+    free(container);
+    container=malloc(sizeof(char)*100);
+    }while (1);
+    int j;
+    j=strlen(container);
+    container=realloc(container,sizeof(char)*(j+1));
+    strcpy(pom->email,container);
+    free(container);
+}
+void zapis_dopliku(Elem *p){
+    FILE *fp;
+    if ((fp=fopen("dane.bin","ab"))==NULL) printf("Problem z plikiem");
+        fwrite(p,1,sizeof(Elem),fp);
+        fclose(fp);
+    }
+int pytanie_o_nr(int i){
+    int j;
+    while(1){
+        scanf("%d", &j);
+        fflush(stdin);
+        if(j>=0 && j<=i) break;
+        printf("Podales zly nr, sprobuj ponownie:  ");
+    }
+    return j;
+}
+void oznaczenie_sprzedane(Elem *pom, int j){
+    int i=1;
+    while(1){
+        if (i==j) break;
+        pom=pom->n;
+        i++;
+    }
+    char *p= strchr( pom->nazwa, '$' );
+    if ( p!=NULL){
+        printf("Ten przedmiot juz ktos kupil\n\n\n\n");
+        getch();
+        free(p);
+        main();
+    }
+    free(p);
+    zapis_dopliku2(pom);            //zapis_dpliku2 - zapisuje liste juz kupionyc
+
+    strcat(pom->nazwa," -----   $$$SPRZEDANE$$$");
+}
+void zapis_dopliku2(Elem *p){
+    FILE *fp;
+    if ((fp=fopen("dane2.bin","ab"))==NULL) printf("Problem z plikiem");
+        fwrite(p,1,sizeof(Elem),fp);
+        fclose(fp);
+}
+void zapis_doplikuWB(Elem *p, int i){
+    FILE *fp;
+    int j=0;
+    if ((fp=fopen("dane.bin","wb"))==NULL) printf("Problem z plikiem");
+        while(j<i){
+        j++;
+        fwrite(p,1,sizeof(Elem),fp);
+        p=p->n;
+        }
+        fclose(fp);
+}
+int lista_ofert(Elem *pow, Elem *H, int i){
+    FILE *fp;
+    if ((fp=fopen("dane.bin","rb"))==NULL) {
+            printf("Problem z plikiem\n");
+            return 0;
+    }
+    H=pow;
+    i=0;
+    do{
+        if (fread(pow,1,sizeof(Elem),fp)){
+            i++;
+            printf("\n\t\t<<<%d>>>\n\n", i);
+            printf("Nazwa - %s\n", pow->nazwa);
+            printf("Kategoria  - %s\n", pow->kategoria);
+            printf("Stan - %s\n", pow->stan);
+            printf("Cena - %.02f zl\n", pow->cena);
+            printf("E-mail - %s\n", pow->email);
+            printf("Numer telefonu - %s\n\n\n", pow->numer);
+            pow->n=(Elem*)malloc(sizeof(Elem));
+            pow=pow->n;
+            pow->n=NULL;
+
+        }
+    }while(!feof(fp));
+    fclose(fp);
+    pow=H;
+     if(i==0) {
+        printf("Brak auckji o padanych parametrach.\n");
+        getch();
+        return i;
+    }
+    return i;
+}
+void usuwanie_elem(Elem *pom2,Elem *H2, int i){
+    int k=2;
+    pom2=H2;
+    if (i==1){
+        H2=pom2->n;
+        free(pom2);
+        pom2=H2;
+    }
+    else {
+        while(1){
+            if(k==i){
+                if(pom2->n->n!=NULL){
+                    Elem *tmp;
+                    tmp=pom2->n;
+                    pom2->n=pom2->n->n;
+                    free(tmp);
+                }
+                else{
+                    Elem *tmp;
+                    tmp=pom2->n;
+                    pom2->n=NULL;
+                    free(tmp);
+                }
+            }
+        k++;
+        if(pom2->n==NULL) break;
+        pom2=pom2->n;
+        }
+    }
+    pom2=H2;
+    zapis_doplikuWB3(pom2);
+}
+void lista_struct(){
+    printf("1. Nazwa\t\t\t2. Kategoria\t\t\t3. Stan\n");
+    printf("4. Cena\t\t\t\t5. E-mail\t\t\t6. Nr. telefonu\n");
+}
+void zmiana_nazwy(Elem *pom){
+    printf("Podaj nowa nazwe: ");
+    wpisanie_nazwy(pom);
+}
+void zmiana_kategori(Elem *pow3){
+    printf("Podane sa takie kategorie: \n");
+    listakat();
+    printf("Podaj numer kategorii na jaka chcesz zmienic: ");
+    int i;
+    i=pytanie_o_nr(6);
+    zapis_kat(i,pow3);
+}
+void zmiana_stanu(Elem *pom4){
+    printf("Podaj nowy stan przedmiotu: \n");
+    int l;
+    printf("1. Nowy / 2. Uzywany\n");
+    l=wybor_kat(2);
+    zapis_stan(l, pom4);
+}
+void zmiana_ceny(Elem *pom5){
+    while(1){
+        printf("Podaj nowa cene:");
+        scanf("%f", &pom5->cena);
+        fflush(stdin);
+        if(pom5->cena>0) break;
+    }
+}
+void zmiana_emaila(Elem *pom6){
+    printf("Podaj nowy e-mail: ");
+    wpisanie_emaila(pom6);
+}
+void zmiana_nrtele(Elem *pom7){
+    printf("Podaj nowy nr. telefonu: ");
+     while(1){
+        scanf("%s", pom7->numer);
+        if (strlen(pom7->numer)==9 && strspn(pom7->numer,"0123456789")==9) break;
+        printf("Numer musi miec 9 cyfr, podaj go jeszcze raz: ");
+    }
+}
+char *napisz_czesciowy(){
+    char *container;
+    int i=0,j,k;
+    k=N;
+    container=malloc(sizeof(char)*100);
+    while(1){
+        while ((container[i] = getchar()) != '\n'){
+            i++;
+        }
+    container[i]='\0';
+    j=strlen(container);
+
+    if(j<k) break;
+
+    printf("\nBlad, nazwa jest za dluga, podaj krotsza\n");
+    free(container);
+    container=malloc(sizeof(char)*100);
+    }
+    container=realloc(container,sizeof(char)*(j+1));
+    return container;
+
+}
+void lista_z_kryteriami(int stan,float pocz, float kon, int k, int sort){
+    FILE *fp;
+    if ((fp=fopen("dane.bin","rb"))==NULL) {
+            printf("Problem z plikiem\n");
+            return;
+    }
+        Elem *pow=(Elem*)malloc(sizeof(Elem));
+        Elem *H4;
+        H4=pow;
+
+    int i=0;
+    do{
+        if (fread(pow,1,sizeof(Elem),fp)){
+                pow->n=(Elem*)malloc(sizeof(Elem));
+                pow=pow->n;
+        }
+         pow->n=NULL;
+    }while(!feof(fp));
+    free(pow);
+    pow=H4;
+    while(1){
+        if(pow->n->n==NULL) {
+                pow->n=NULL;
+                break;
+        }
+        pow=pow->n;
+    }
+    pow=H4;
+    while (1){
+        if(pow->n==NULL) break;
+        pow=pow->n;
+    }
+    pow=sortowanie_cen(pow,H4,sort);
+    Elem *H6=pow;
+    pow=H6;
+    int j=0, T[100];
+    while(1){
+    j++;
+                if(filtr_stan(stan,pow->stan)){
+                    if(filtr_kategoira(k, pow->kategoria)){
+                        if(filtr_cen(pocz,kon, pow->cena)){
+
+                            i++;
+                            printf("\n\t\t<<<%d>>>\n\n", i);
+                            printf("Nazwa - %s\n", pow->nazwa);
+                            printf("Kategoria  - %s\n", pow->kategoria);
+                            printf("Stan - %s\n", pow->stan);
+                            printf("Cena - %.02f zl\n", pow->cena);
+                            printf("E-mail - %s\n", pow->email);
+                            printf("Numer telefonu - %s\n\n\n", pow->numer);
+
+                            T[i]=j;
+                        }
+                    }
+                }
+    if(pow->n==NULL) break;
+    pow=pow->n;
+    }
+
+    if(i==0) {
+        printf("Brak auckji o padanych parametrach.\n");
+        getch();
+        return;
+    }
+    printf("Podaj numer aukcji ktora chcesz kupic:  ");
+    int nraukcji;
+    nraukcji=pytanie_o_nr(i);
+    if (nraukcji==0) main();
+    int j3=1;
+    pow=H6;
+    while(1){
+        if(T[nraukcji]==j3) break;
+         pow=pow->n;
+        j3++;
+    }
+
+    char *p= strchr( pow->nazwa, '$' );
+    if ( p!=NULL){
+        printf("Ten przedmiot juz ktos kupil\n\n\n\n");
+        getch();
+        free(p);
+        main();
+    }
+    free(p);
+    zapis_dopliku2(pow);
+    strcat(pow->nazwa," -----   $$$SPRZEDANE$$$");
+    pow=H6;
+    int j5=0;
+    if ((fp=fopen("dane.bin","wb"))==NULL) printf("Problem z plikiem");
+        while(1){
+        fwrite(pow,1,sizeof(Elem),fp);
+        if(pow->n==NULL) break;
+        pow=pow->n;
+        j5++;
+        }
+
+    fclose(fp);
+    getch();
+}
+int filtr_stan(int i, char *T){
+    char *T2;
+    T2=(char*)malloc(sizeof(char)*15);
+    if(i==1) strcpy(T2,"Nowy");
+    if(i==2) strcpy(T2,"Uzywany");
+    if(i==3) return 1;
+    if(strcmp(T2,T)==0) return 1;
+    return 0;
+}
+int filtr_kategoira(int k,char *T){
+     char *T2;
+        T2=(char*)malloc(sizeof(char)*15);
+        if(k==1)strcpy(T2,"Motoryzacja");
+        if(k==2)strcpy(T2,"Elektornika");
+        if(k==3)strcpy(T2,"Nieruchomosc");
+        if(k==4)strcpy(T2,"Sport");
+        if(k==5)strcpy(T2,"Moda");
+        if(k==6)strcpy(T2,"Inna");
+        if(k==7) return 1;
+        if(strcmp(T2,T)==0) return 1;
+        return 0;
+}
+int filtr_cen(float pocz, float kon, float cena){
+    if(pocz==0 && kon==0) return 1;
+    if (pocz<=cena && kon>=cena) return 1;
+    return 0;
+}
+Elem* sortowanie_cen(Elem *pow5, Elem *H5, int i){
+    pow5=H5;
+    if(i==3) return pow5;
+    Elem *tmp,*p5;
+    tmp=(Elem*)malloc(sizeof(Elem));
+    pow5=H5;
+    p5=tmp;
+    p5=H5;
+    tmp=H5;
+    int allElem=0, liczba=0;
+    p5=H5;
+    if(i==1){
+            while(1)
+            {
+                 if((H5->cena) > (p5->n->cena)){
+                     H5=p5->n;
+                 }
+                if(p5->n->n==NULL) break;
+                p5=p5->n;
+            }
+            if(H5->n==NULL){
+                    H5->n=tmp;
+                    p5->n=NULL;
+            }
+            else{
+            p5=tmp;
+                while(1){
+
+                    if (p5==H5) break;
+                    if(p5->n->n!=NULL){
+                        if (p5->n==H5){
+                            p5->n=p5->n->n;
+                            H5->n=tmp;
+
+                        }
+                    }
+
+                    if(p5->n->n==NULL) break;
+                    p5=p5->n;
+                }
+            }
+        p5=H5;
+        if(p5->n->n==NULL) return p5;
+        p5=H5;
+        while(liczba<=allElem){
+
+            while(1){
+                if(p5->n->cena  > p5->n->n->cena){
+                        tmp=p5->n->n;
+                        p5->n->n=p5->n->n->n;
+                        tmp->n=p5->n;
+                        p5->n=tmp;
+
+                    }
+                     if(p5->n->n->n==NULL)break;
+                p5=p5->n;
+            }
+            liczba++;
+            p5=H5;
+        }
+        p5=H5;
+        p5=H5;
+    }
+    if(i==2){
+             while(1){
+                 if((H5->cena) < (p5->n->cena)){
+                     H5=p5->n;
+                 }
+                if(p5->n->n==NULL) break;
+                p5=p5->n;
+
+            }
+            if(H5->n==NULL){
+                    H5->n=tmp;
+                    p5->n=NULL;
+
+            }
+            else{
+            p5=tmp;
+                while(1){
+
+                    if (p5==H5) break;
+                    if(p5->n->n!=NULL){
+                        if (p5->n==H5){
+                            p5->n=p5->n->n;
+                            H5->n=tmp;
+                        }
+                    }
+                    if(p5->n->n==NULL) break;
+                    p5=p5->n;
+                }
+            }
+        p5=H5;
+        if(p5->n->n==NULL) return p5;
+        p5=H5;
+        while(liczba<=allElem){
+            while(1){
+                if(p5->n->cena  < p5->n->n->cena){
+                        tmp=p5->n->n;
+                        p5->n->n=p5->n->n->n;
+                        tmp->n=p5->n;
+                        p5->n=tmp;
+                }
+                if(p5->n->n->n==NULL)break;
+                p5=p5->n;
+            }
+            p5=H5;
+            liczba++;
+        }
+        p5=H5;
+    }
+    return p5;
+}
+void zapis_doplikuWB3(Elem *pomEND){
+     FILE *fp;
+        if ((fp=fopen("dane.bin","wb"))==NULL) printf("Problem z plikiem");
+        while(1){
+            fwrite(pomEND,1,sizeof(Elem),fp);
+            if(pomEND->n==NULL) break;
+            pomEND=pomEND->n;
+        }
+        fclose(fp);
+}
+
 
