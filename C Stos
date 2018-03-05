@@ -1,0 +1,102 @@
+# Mar
+C
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#define L 4
+#define Max 20
+    /*init - przygotowanie stosu do pracy
+    destroy - "posprz¹tanie" po stosie
+    push - po³o¿enie na wierzcho³ku stosu liczby - parametru
+    pop - zdjêcie z wierzcho³ka stosu liczby (tzn. liczby ostatnio po³o¿onej)
+    top - odczytanie z wierzcho³ka stosu liczby (tzn. liczby ostatnio po³o¿onej)
+    empty - sprawdzenie, czy stos jest pusty
+    full - sprawdzenie, czy stos jest pe³ny*/
+int* init(int *T, int w){
+    w=w+1;
+    T=(int*) malloc(w*sizeof(int));
+    int i;
+    for (i=0; i<w; i++){
+        T[i]=-1;
+    }
+    return T;
+}
+
+void empty(int *T){
+    if(T[0]==-1){
+        printf("Stos jest pusty.\n");
+        return;
+    }
+    printf("Stos nie jest pusty.\n");
+}
+void full(int *T, int w){
+    if(T[w-1]==-1) printf("Stos nie pelny");
+    else printf("Stos pelny");
+}
+int *push(int *T, int los){
+    T=los;
+    return T;
+}
+void top(int *T){
+    int i;
+    for (i=0;T[i]!=-1;i++);
+    printf("\nNa gorze stosu jest %d\n", T[i-1]);
+}
+int pop(int *T){
+    int i=0;
+    for (i=0; T[i]!=-1;i++);
+    T[i-1]=-1;
+    return T;
+}
+void destroy(int *T){
+   free(T);
+}
+
+
+int main(){
+    srand(time(NULL));
+    int MAXstosu, losowaliczba1, losowaliczba2;
+    MAXstosu=Max;
+    int *tab[L];
+    int i,j;
+    for (i=0; i<L; i++){
+        tab[i]=init(tab[i], MAXstosu);
+        printf("\n%d.   ", i+1);
+        empty(tab[i]);
+    }
+    for(i=0;i<L; i++){
+         losowaliczba1=(rand()%20)+1;
+         for (j=0; j<losowaliczba1; j++){
+                losowaliczba2=rand()%100;
+                tab[i][j]=push(tab, losowaliczba2);
+         }
+         printf("\n%d.  ",i+1);
+         full(tab[i],MAXstosu);
+         top(tab[i]);
+    }
+
+    printf("\nUsowanie ostatniego elementu dodanego\n");
+
+    for(i=0; i<L; i++){
+        tab[i]=pop(tab[i]);
+    }
+
+    printf("\nStosy:");
+    for(i=0; i<L; i++){
+        printf("\n\t\t<<%d>>\n", i+1);
+        j=0;
+        while(tab[i][j]!=-1){
+            printf("%d\n",tab[i][j]);
+            j++;
+        }
+        empty(tab[i]);
+    }
+
+    for (i=0; i<L; i++){
+    destroy(tab[i]);
+    }
+    destroy(tab);
+    getchar();
+    return 0;
+}
+
