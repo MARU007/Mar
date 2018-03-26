@@ -1,7 +1,18 @@
-# Mar
-C++
-// Zad 4 PO Konstruktory.cpp : Defines the entry point for the console application.
-//
+// PO ZAD 4.cpp : Defines the entry point for the console application.
+//Napisz w C++ klasę stosu opartego o tablicę dynamiczną, a następnie
+
+/*Dodaj konstruktory : 1 - parametrowy z rozmiarem stosu konstruktor oraz domyślny(bezparametrowy)
+a także destruktor zwalniający pamięć.Dodaj do nich instrukcje wypisujące informacje o ich
+wywołaniu na ekran i zaobserwuj, kiedy się wywołują dla obiektów automatycznych i dynamicznych.
+
+Zaobserwuj (np. poprzez wypisywanie komunikatów w konstruktorach) powstawanie niewidocznego
+tymczasowego obiektu automatycznego. Powstaje on, kiedy funkcja zwraca jako wynik obiekt
+automatyczny zdefiniowany w niej. W GCC należy wyłączyć opcję, która powoduje niepowstawanie
+takich obiektów - "-fno-elide-constructors".
+
+W konstruktorach i destruktorze wypisuj adresy obiektów, które się tworzą/usuwają i powiąż je
+w pary - dla każdego wywołania kontruktora musi być dokładnie jedno wywołanie destruktora.
+*/
 
 
 #include "stdafx.h"
@@ -17,12 +28,13 @@ class Stos
 	int rozmiar, wierzcholek;
 
 public:
+
 	Stos(int rozmiar2)
 	{
 		tab = new int[rozmiar2];
 		wierzcholek = -1;
 		rozmiar = rozmiar2;
-		cout <<  "Adres: " << tab  << " <<---- konstruktor z 1 parametrem" << endl;
+		cout << "Adres: " << tab << " <<---- konstruktor z 1 parametrem" << endl;
 	}
 
 	Stos()
@@ -30,16 +42,7 @@ public:
 		tab = new int[20];
 		wierzcholek = -1;
 		rozmiar = 20;
-		cout  << "Adres: " << tab  << " <<---- konstruktor bezparametrowy" << endl;
-	}
-
-
-	Stos(Stos& pow)
-	{
-		tab = new int[pow.rozmiar];
-		rozmiar = pow.rozmiar;
-		wierzcholek = pow.wierzcholek;
-		cout   << "Adres: " << tab << " <<---- kopia" << endl;
+		cout << "Adres: " << tab << " <<---- konstruktor bezparametrowy" << endl;
 	}
 
 	void init(int N)
@@ -47,8 +50,9 @@ public:
 		tab = new int[N];
 		wierzcholek = -1;
 		rozmiar = N;
+
 	}
-	
+
 	void push(int a)
 	{
 		if (!full()) tab[++wierzcholek] = a;
@@ -84,16 +88,25 @@ public:
 	{
 		delete[] tab;
 	}
+	Stos(Stos& pow)
+	{
+		tab = new int[pow.rozmiar];
+		cout << "Adres: " << tab << " <<---- kopia" << endl ;
+
+		wierzcholek = pow.wierzcholek;
+		rozmiar = pow.rozmiar;
+
+	}
 	~Stos()
 	{
-		cout << "Adres stosu: " << tab << "<<---- destruktor" << endl;
+		cout << "Adres stosu: " << tab << "<<---- destruktor" << endl << endl << endl;
 		delete[] tab;
 	}
 
 };
 
 
-void dodaj(Stos s, int a) {
+void f(Stos s, int a) {
 	s.push(a);
 }
 
@@ -102,13 +115,19 @@ int main()
 {
 	Stos s;
 	s.push(0);
-	dodaj(s, 1);
-	dodaj(s, 2);
+	f(s, 1);
+	//getchar();  // jeśli adresy są takie same to użyć, aby były inne 
+	f(s, 2);
 	while (!s.empty()) {
 		cout <<
 		s.top();
 		s.pop();
 	}
-	getch();
+	getchar();
+
+
+	/*	Stos(1);
+	getchar();
+	*/
 	return 0;
 }
