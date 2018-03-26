@@ -1,0 +1,114 @@
+# Mar
+C++
+// Zad 4 PO Konstruktory.cpp : Defines the entry point for the console application.
+//
+
+
+#include "stdafx.h"
+#include <iostream>
+#include <stdlib.h>
+#include <conio.h>
+
+using namespace std;
+
+class Stos
+{
+	int *tab;
+	int rozmiar, wierzcholek;
+
+public:
+	Stos(int rozmiar2)
+	{
+		tab = new int[rozmiar2];
+		wierzcholek = -1;
+		rozmiar = rozmiar2;
+		cout <<  "Adres: " << tab  << " <<---- konstruktor z 1 parametrem" << endl;
+	}
+
+	Stos()
+	{
+		tab = new int[20];
+		wierzcholek = -1;
+		rozmiar = 20;
+		cout  << "Adres: " << tab  << " <<---- konstruktor bezparametrowy" << endl;
+	}
+
+
+	Stos(Stos& pow)
+	{
+		tab = new int[pow.rozmiar];
+		rozmiar = pow.rozmiar;
+		wierzcholek = pow.wierzcholek;
+		cout   << "Adres: " << tab << " <<---- kopia" << endl;
+	}
+
+	void init(int N)
+	{
+		tab = new int[N];
+		wierzcholek = -1;
+		rozmiar = N;
+	}
+	
+	void push(int a)
+	{
+		if (!full()) tab[++wierzcholek] = a;
+		else cout << "Stos jest pelny" << endl;
+	}
+
+	void pop()
+	{
+		--wierzcholek;
+	}
+
+	int top()
+	{
+		if (empty())
+		{
+			cout << "Stos jest pusty!" << endl;
+		}
+		return tab[wierzcholek];
+	}
+
+	int empty()
+	{
+		if (wierzcholek == -1) return 1;
+		else return 0;
+	}
+
+	int full()
+	{
+		if (wierzcholek == (rozmiar - 1)) return 1;
+		else return 0;
+	}
+	void destroy()
+	{
+		delete[] tab;
+	}
+	~Stos()
+	{
+		cout << "Adres stosu: " << tab << "<<---- destruktor" << endl;
+		delete[] tab;
+	}
+
+};
+
+
+void dodaj(Stos s, int a) {
+	s.push(a);
+}
+
+
+int main()
+{
+	Stos s;
+	s.push(0);
+	dodaj(s, 1);
+	dodaj(s, 2);
+	while (!s.empty()) {
+		cout <<
+		s.top();
+		s.pop();
+	}
+	getch();
+	return 0;
+}
